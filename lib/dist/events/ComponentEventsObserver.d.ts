@@ -1,6 +1,6 @@
 /// <reference types="react" />
 import { EventSubscription } from '../interfaces/EventSubscription';
-import { ComponentDidAppearEvent, ComponentDidDisappearEvent, NavigationButtonPressedEvent, SearchBarUpdatedEvent, SearchBarCancelPressedEvent, ModalDismissedEvent } from '../interfaces/ComponentEvents';
+import { ComponentDidAppearEvent, ComponentDidDisappearEvent, NavigationButtonPressedEvent, SearchBarUpdatedEvent, SearchBarCancelPressedEvent, PreviewCompletedEvent, ModalDismissedEvent } from '../interfaces/ComponentEvents';
 import { NativeEventsReceiver } from '../adapters/NativeEventsReceiver';
 export declare class ComponentEventsObserver {
     private readonly nativeEventsReceiver;
@@ -16,5 +16,6 @@ export declare class ComponentEventsObserver {
     notifyModalDismissed(event: ModalDismissedEvent): void;
     notifySearchBarUpdated(event: SearchBarUpdatedEvent): void;
     notifySearchBarCancelPressed(event: SearchBarCancelPressedEvent): void;
+    notifyPreviewCompleted(event: PreviewCompletedEvent): void;
     private triggerOnAllListenersByComponentId;
 }

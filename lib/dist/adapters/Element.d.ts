@@ -11,7 +11,7 @@ export declare class Element extends React.Component<{
     } | {
         hitSlop: PropTypes.Validator<import("react-native").Insets | undefined>;
         onLayout: PropTypes.Validator<((event: import("react-native").LayoutChangeEvent) => void) | undefined>;
-        pointerEvents: PropTypes.Validator<"box-none" | "none" | "box-only" | "auto" | undefined>;
+        pointerEvents: PropTypes.Validator<"auto" | "box-none" | "none" | "box-only" | undefined>;
         removeClippedSubviews: PropTypes.Validator<boolean | undefined>;
         style: PropTypes.Validator<import("react-native").StyleProp<import("react-native").ViewStyle>>;
         testID: PropTypes.Validator<string | undefined>;
@@ -44,7 +44,7 @@ export declare class Element extends React.Component<{
         accessibilityComponentType: PropTypes.Validator<"none" | "button" | "radiobutton_checked" | "radiobutton_unchecked" | undefined>;
         accessibilityLiveRegion: PropTypes.Validator<"none" | "polite" | "assertive" | undefined>;
         importantForAccessibility: PropTypes.Validator<"auto" | "yes" | "no" | "no-hide-descendants" | undefined>;
-        accessibilityTraits: PropTypes.Validator<"image" | "none" | "button" | "link" | "header" | "search" | "selected" | "plays" | "key" | "text" | "summary" | "disabled" | "frequentUpdates" | "startsMedia" | "adjustable" | "allowsDirectInteraction" | "pageTurn" | import("react-native").AccessibilityTraits[] | undefined>;
+        accessibilityTraits: PropTypes.Validator<"selected" | "image" | "none" | "button" | "link" | "header" | "search" | "plays" | "key" | "text" | "summary" | "disabled" | "frequentUpdates" | "startsMedia" | "adjustable" | "allowsDirectInteraction" | "pageTurn" | import("react-native").AccessibilityTraits[] | undefined>;
         onAcccessibilityTap: PropTypes.Validator<(() => void) | undefined>;
         onMagicTap: PropTypes.Validator<(() => void) | undefined>;
         elementId: PropTypes.Validator<string>;

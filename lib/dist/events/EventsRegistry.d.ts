@@ -3,7 +3,7 @@ import { NativeEventsReceiver } from '../adapters/NativeEventsReceiver';
 import { CommandsObserver } from './CommandsObserver';
 import { EventSubscription } from '../interfaces/EventSubscription';
 import { ComponentEventsObserver } from './ComponentEventsObserver';
-import { ComponentDidAppearEvent, ComponentDidDisappearEvent, NavigationButtonPressedEvent, SearchBarUpdatedEvent, SearchBarCancelPressedEvent, ModalDismissedEvent } from '../interfaces/ComponentEvents';
+import { ComponentDidAppearEvent, ComponentDidDisappearEvent, NavigationButtonPressedEvent, SearchBarUpdatedEvent, SearchBarCancelPressedEvent, PreviewCompletedEvent, ModalDismissedEvent } from '../interfaces/ComponentEvents';
 import { CommandCompletedEvent, BottomTabSelectedEvent } from '../interfaces/Events';
 export declare class EventsRegistry {
     private nativeEventsReceiver;
@@ -19,6 +19,7 @@ export declare class EventsRegistry {
     registerModalDismissedListener(callback: (event: ModalDismissedEvent) => void): EventSubscription;
     registerSearchBarUpdatedListener(callback: (event: SearchBarUpdatedEvent) => void): EventSubscription;
     registerSearchBarCancelPressedListener(callback: (event: SearchBarCancelPressedEvent) => void): EventSubscription;
+    registerPreviewCompletedListener(callback: (event: PreviewCompletedEvent) => void): EventSubscription;
     registerCommandListener(callback: (name: string, params: any) => void): EventSubscription;
     bindComponent(component: React.Component<any>): EventSubscription;
 }
