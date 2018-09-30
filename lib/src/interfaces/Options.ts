@@ -11,20 +11,20 @@ export interface OptionsSplitView {
    * Master view display mode
    * @default 'auto'
    */
-  displayMode: 'auto' | 'visible' | 'hidden' | 'overlay';
+  displayMode?: 'auto' | 'visible' | 'hidden' | 'overlay';
   /**
    * Master view side. Leading is left. Trailing is right.
    * @default 'leading'
    */
-  primaryEdge: 'leading' | 'trailing';
+  primaryEdge?: 'leading' | 'trailing';
   /**
    * Set the minimum width of master view
    */
-  minWidth: number;
+  minWidth?: number;
   /**
    * Set the maximum width of master view
    */
-  maxWidth: number;
+  maxWidth?: number;
 }
 
 export interface OptionsStatusBar {
@@ -156,7 +156,7 @@ export interface OptionsTopBarBackButton {
   /**
    * Image to show as the back button
    */
-  icon: ImageRequireSource;
+  icon?: ImageRequireSource;
   /**
    * Weither the back button is visible or not
    * @default true
@@ -173,8 +173,7 @@ export interface OptionsTopBarBackButton {
    */
   showTitle?: boolean;
   /**
-   * Back button icon or text color
-   * #### (Android specific)
+   * Back button icon and text color
    */
   color?: Color;
 }
@@ -184,6 +183,11 @@ export interface  OptionsTopBarBackground {
    * Background color of the top bar
    */
   color?: Color;
+  /**
+   * Clip the top bar background to bounds if set to true.
+   * #### (iOS specific)
+   */
+  clipToBounds?: boolean;
   /**
    * Set a custom component for the Top Bar background
    */
@@ -231,7 +235,7 @@ export interface OptionsTopBarButton {
   /**
    * Set testID for reference in E2E tests
    */
-  testID: string;
+  testID?: string;
 }
 
 export interface OptionsTopBar {
@@ -406,6 +410,11 @@ export interface OptionsBottomTabs {
    * #### (Android specific)
    */
   titleDisplayMode?: 'alwaysShow' | 'showWhenActive' | 'alwaysHide';
+  /**
+   * Set the elevation of the Bottom Tabs in dp
+   * #### (Android specific)
+   */
+  elevation?: AndroidDensityNumber;
 }
 
 export interface OptionsBottomTab {
@@ -555,11 +564,11 @@ export interface OptionsAnimationPropertyConfig {
   /**
    * Animate from this value, ex. 0
    */
-  from: number;
+  from?: number;
   /**
    * Animate to this value, ex. 1
    */
-  to: number;
+  to?: number;
   /**
    * Animation duration
    * @default 300
@@ -635,9 +644,9 @@ export interface OptionsAnimationSeparate {
 
 export interface OptionsAnimations {
   /**
-   * Configure the start app animation
+   * Configure the setRoot animation
    */
-  startApp?: OptionsAnimationProperties;
+  setRoot?: OptionsAnimationProperties;
   /**
    * Configure what animates when a screen is pushed
    */
@@ -698,7 +707,7 @@ export interface Options {
    *
    * Example:
 ```js
-startApp: {
+setRoot: {
   y: {
     from: 1000,
     to: 0,

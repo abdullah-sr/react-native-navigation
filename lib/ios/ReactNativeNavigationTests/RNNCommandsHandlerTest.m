@@ -5,8 +5,9 @@
 #import "RNNTestRootViewCreator.h"
 #import "RNNRootViewController.h"
 #import "RNNNavigationStackManager.h"
+#import "RNNNavigationController.h"
 
-@interface MockUINavigationController : UINavigationController
+@interface MockUINavigationController : RNNNavigationController
 @property (nonatomic, strong) NSArray* willReturnVCs;
 @end
 
@@ -70,6 +71,8 @@
 	[skipMethods addObject:@"assertReady"];
 	[skipMethods addObject:@"removePopedViewControllers:"];
 	[skipMethods addObject:@".cxx_destruct"];
+	[skipMethods addObject:@"dismissedModal:"];
+	[skipMethods addObject:@"dismissedMultipleModals:"];
 
 	NSMutableArray* result = [NSMutableArray new];
 
@@ -93,13 +96,14 @@
 -(void)testDynamicStylesMergeWithStaticStyles {
 	RNNNavigationOptions* initialOptions = [[RNNNavigationOptions alloc] initWithDict:@{}];
 	initialOptions.topBar.title.text = @"the title";
-	RNNRootViewController* vc = [[RNNRootViewController alloc] initWithName:@"name"
-																withOptions:initialOptions
-															withComponentId:@"componentId"
-															rootViewCreator:[[RNNTestRootViewCreator alloc] init]
-															   eventEmitter:nil
-														  isExternalComponent:NO];
-	UINavigationController* nav = [[UINavigationController alloc] initWithRootViewController:vc];
+	RNNLayoutInfo* layoutInfo = [RNNLayoutInfo new];
+	
+	RNNViewControllerPresenter* presenter = [[RNNViewControllerPresenter alloc] initWithOptions:initialOptions];
+	RNNRootViewController* vc = [[RNNRootViewController alloc] initWithLayoutInfo:layoutInfo rootViewCreator:[[RNNTestRootViewCreator alloc] init] eventEmitter:nil isExternalComponent:NO presenter:presenter];
+	
+	RNNNavigationController* nav = [[RNNNavigationController alloc] initWithRootViewController:vc];
+	nav.presenter = [[RNNNavigationControllerPresenter alloc] initWithOptions:initialOptions];
+	
 	[vc viewWillAppear:false];
 	XCTAssertTrue([vc.navigationItem.title isEqual:@"the title"]);
 
@@ -115,11 +119,32 @@
 	}];
 }
 
+- (void)testMergeOptions_shouldOverrideOptions {
+	RNNNavigationOptions* initialOptions = [[RNNNavigationOptions alloc] initWithDict:@{}];
+	initialOptions.topBar.title.text = @"the title";
+	
+	RNNViewControllerPresenter* presenter = [[RNNViewControllerPresenter alloc] initWithOptions:initialOptions];
+	RNNRootViewController* vc = [[RNNRootViewController alloc] initWithLayoutInfo:nil rootViewCreator:[[RNNTestRootViewCreator alloc] init] eventEmitter:nil isExternalComponent:NO presenter:presenter];
+	
+	__unused RNNNavigationController* nav = [[RNNNavigationController alloc] initWithRootViewController:vc];
+	[vc viewWillAppear:false];
+	XCTAssertTrue([vc.navigationItem.title isEqual:@"the title"]);
+	
+	[self.store setReadyToReceiveCommands:true];
+	[self.store setComponent:vc componentId:@"componentId"];
+	
+	NSDictionary* dictFromJs = @{@"topBar": @{@"title" : @{@"text" : @"new title"}}};
+	
+	[self.uut mergeOptions:@"componentId" options:dictFromJs completion:^{
+		XCTAssertTrue([vc.navigationItem.title isEqual:@"new title"]);
+	}];
+}
+
 - (void)testPop_removeTopVCFromStore {
 	[self.store setReadyToReceiveCommands:true];
 	XCTestExpectation *expectation = [self expectationWithDescription:@"Testing Async Method"];
 
-	[self.uut pop:@"vc3" options:nil completion:^{
+	[self.uut pop:@"vc3" mergeOptions:nil completion:^{
 		XCTAssertNil([self.store findComponentForId:@"vc3"]);
 		XCTAssertNotNil([self.store findComponentForId:@"vc2"]);
 		XCTAssertNotNil([self.store findComponentForId:@"vc1"]);
@@ -135,7 +160,7 @@
 	[self.store setReadyToReceiveCommands:true];
 	XCTestExpectation *expectation = [self expectationWithDescription:@"Testing Async Method"];
 	_nvc.willReturnVCs = @[self.vc2, self.vc3];
-	[self.uut popTo:@"vc1" completion:^{
+	[self.uut popTo:@"vc1" mergeOptions:nil completion:^{
 		XCTAssertNil([self.store findComponentForId:@"vc2"]);
 		XCTAssertNil([self.store findComponentForId:@"vc3"]);
 		XCTAssertNotNil([self.store findComponentForId:@"vc1"]);
@@ -149,7 +174,7 @@
 	[self.store setReadyToReceiveCommands:true];
 	_nvc.willReturnVCs = @[self.vc2, self.vc3];
 	XCTestExpectation *expectation = [self expectationWithDescription:@"Testing Async Method"];
-	[self.uut popToRoot:@"vc3" completion:^{
+	[self.uut popToRoot:@"vc3" mergeOptions:nil completion:^{
 		XCTAssertNil([self.store findComponentForId:@"vc2"]);
 		XCTAssertNil([self.store findComponentForId:@"vc3"]);
 		XCTAssertNotNil([self.store findComponentForId:@"vc1"]);
