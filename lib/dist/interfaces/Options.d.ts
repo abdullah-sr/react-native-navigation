@@ -111,8 +111,22 @@ export interface OptionsTopBarTitle {
      * Custom component as the title view
      */
     component?: {
+        /**
+         * Component reference id, Auto generated if empty
+         */
+        id?: string;
+        /**
+         * Name of your component
+         */
         name: string;
+        /**
+         * Set component alignment
+         */
         alignment?: 'center' | 'fill';
+        /**
+         * Properties to pass down to the component
+         */
+        passProps?: object;
     };
     /**
      * Top Bar title height in densitiy pixels
@@ -183,6 +197,16 @@ export interface OptionsTopBarBackground {
     component?: {
         name?: string;
     };
+    /**
+     * Allows the NavBar to be translucent (blurred)
+     * #### (iOS specific)
+     */
+    translucent?: boolean;
+    /**
+     * Enable background blur
+     * #### (iOS specific)
+     */
+    blur?: boolean;
 }
 export interface OptionsTopBarButton {
     /**
@@ -282,27 +306,11 @@ export interface OptionsTopBar {
      */
     barStyle?: 'default' | 'black';
     /**
-     * Allows the NavBar to be translucent (blurred)
-     * #### (iOS specific)
-     * @requires transparent: false
-     */
-    translucent?: boolean;
-    /**
-     * Allows the NavBar to be transparent
-     * #### (iOS specific)
-     */
-    transparent?: boolean;
-    /**
      * Disable the border on bottom of the navbar
      * #### (iOS specific)
      * @default false
      */
     noBorder?: boolean;
-    /**
-     * Enable background blur
-     * #### (iOS specific)
-     */
-    blur?: boolean;
     /**
      * Show a UISearchBar in the Top Bar
      * #### (iOS 11+ specific)
@@ -383,7 +391,6 @@ export interface OptionsBottomTabs {
     /**
      * Allows the Bottom Tabs to be translucent (blurred)
      * #### (iOS specific)
-     * @requires transparent: false
      */
     translucent?: boolean;
     /**

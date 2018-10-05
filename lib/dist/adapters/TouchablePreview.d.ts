@@ -16,7 +16,7 @@ export interface Props {
 }
 export declare class TouchablePreview extends React.PureComponent<Props, any> {
     static propTypes: {
-        children: PropTypes.Requireable<React.ReactNode>;
+        children: PropTypes.Requireable<PropTypes.ReactNodeLike>;
         touchableComponent: PropTypes.Requireable<(...args: any[]) => any>;
         onPress: PropTypes.Requireable<(...args: any[]) => any>;
         onPressIn: PropTypes.Requireable<(...args: any[]) => any>;
