@@ -37,7 +37,7 @@ public class ModalPresenter {
         }
         Options options = toAdd.resolveCurrentOptions(defaultOptions);
         toAdd.setWaitForRender(options.animations.showModal.waitForRender);
-        modalsContainer.addView(toAdd.getView());
+//        modalsContainer.addView(toAdd.getView());
         if (options.animations.showModal.enable.isTrueOrUndefined()) {
             if (options.animations.showModal.waitForRender.isTrue()) {
                 toAdd.setOnAppearedListener(() -> animateShow(toAdd, toRemove, listener, options));
